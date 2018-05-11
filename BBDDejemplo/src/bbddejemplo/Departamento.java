@@ -9,17 +9,20 @@ package bbddejemplo;
  *
  * @author Usuario 1 DAM
  */
+
+
+//CReo los atributos de la tabla Departamento
 public class Departamento {
     private int dept_no;
     private String dnombre;
     private String loc;
-
+//Genero constructores 
     public Departamento(int dept_no, String dnombre, String loc) {
         this.dept_no = dept_no;
         this.dnombre = dnombre;
         this.loc = loc;
     }
-
+//Genero getters y setters
     public int getDept_no() {
         return dept_no;
     }

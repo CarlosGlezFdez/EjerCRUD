@@ -18,13 +18,15 @@ import java.util.logging.Logger;
  *
  * @author Usuario 1 DAM
  */
+
+
 public class Departamentos {
 
     private Connection conexion;
     private ArrayList<Departamento>departamentos;
 
     public Departamentos() {
-
+//Genero un try catch por si no hay base de datos enlazada a la base de datos y se identifique el error
         try {
             conexion = DriverManager.getConnection("jdbc:mysql://localhost/ejemplo", "ejemplo", "ejemplo");
         } catch (SQLException ex) {
@@ -34,7 +36,7 @@ public class Departamentos {
     }
 
 
-    
+//Geenro una clase para crear deaprtamentos
         public int Create(Departamento dep) throws SQLException {
 
         int filas = 0;
@@ -52,7 +54,7 @@ public class Departamentos {
 
     }
 
-
+//Genero una clase para modificar departamentos
     public int voidUpdate(int dept_no, Departamento dept)throws SQLException {
         int filas;
         String sql = "UPDATE departamentos SET dnombre=?, loc=?, where dept_no";
@@ -64,6 +66,8 @@ public class Departamentos {
         return filas;
         
     }
+    
+//Genero una clase para leer la tabla de departamentos
     public Departamento Read(int dept_no) throws SQLException{
         ResultSet rs;
         String sql = "SELECT * FROM departamentos WHERE dept_no = " + dept_no;
@@ -74,6 +78,8 @@ public class Departamentos {
         Departamento dept = new Departamento (rs.getInt("dept_no"), rs.getString("dnombre"), rs.getString("loc"));
         return dept;
     }
+    
+//Genero un campo para leer y acceder a datos a través de del nombre del deaprtamento
     public Departamento ReadNombre(String dnombre) throws SQLException{
         ResultSet rs;
         String sql = "SELECT * FROM departamentos WHERE dnombre = '" + dnombre + "'";
@@ -85,6 +91,7 @@ public class Departamentos {
         return dept;
     }
 
+//Genero un campo para borrar datos
     public int Delete(int dept_no) throws SQLException{
         int filas;
         String sql = "DELETE from departamentos WHERE dept_no = ?";
@@ -93,9 +100,11 @@ public class Departamentos {
         filas = sentencia.executeUpdate();
         return filas;
     }
+//Genero un close para cerrar la conexion 
     public void Close() throws SQLException {
         conexion.close();
     }
+//Genero una lista para listar los datos de la tabla Departamentos
     public ArrayList <Departamento> ListarDepartamentos() throws SQLException{
         ResultSet rs;
         Departamento dept = new Departamento();

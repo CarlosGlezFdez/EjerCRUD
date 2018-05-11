@@ -19,10 +19,12 @@ import java.util.logging.Logger;
  * @author Usuario 1 DAM
  */
 public class Empleados {
+
     private Connection conexion;
-    private ArrayList<Departamento>empleados;
-    
-public Empleados() {
+    private ArrayList<Departamento> empleados;
+
+//Uso esto para que haya conexion con la base de datos
+    public Empleados() {
 
         try {
             conexion = DriverManager.getConnection("jdbc:mysql://localhost/ejemplo", "ejemplo", "ejemplo");
@@ -31,7 +33,9 @@ public Empleados() {
         }
 
     }
-public int Create(Empleado emp) throws SQLException {
+
+//Uso este campo para creear empleados
+    public int Create(Empleado emp) throws SQLException {
         int filas;
         String sql = "INSERT INTO empleados VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
@@ -42,50 +46,68 @@ public int Create(Empleado emp) throws SQLException {
         sentencia.setDate(5, emp.getFecha_alt());
         sentencia.setFloat(6, emp.getSalario());
         sentencia.setFloat(7, emp.getComision());
-        sentencia.setInt(8, emp.getDept_n());
+        sentencia.setInt(8, emp.getDept_no());
         filas = sentencia.executeUpdate();
         return filas;
     }
 
+//En este campo puedo modificar los empleados
     public int Update(int emp_no, Empleado emp) throws SQLException {
         int filas;
         String sql = "UPDATE empleados SET apellido=?, oficio=?, dir=?, fecha_alt=?, salario=?, comision=?, dept_no=?, where emp_no";
         PreparedStatement sentencia = conexion.prepareCall(sql);
-        sentencia.setString(1,emp.getApellido());
+        sentencia.setString(1, emp.getApellido());
         sentencia.setString(2, emp.getOficio());
         sentencia.setInt(3, emp.getDir());
         sentencia.setDate(5, emp.getFecha_alt());
         sentencia.setFloat(5, emp.getSalario());
         sentencia.setFloat(6, emp.getComision());
-        sentencia.setInt(7, emp.getDept_n());
-        sentencia.setInt(8,emp_no);
+        sentencia.setInt(7, emp.getDept_no());
+        sentencia.setInt(8, emp_no);
         filas = sentencia.executeUpdate();
         return filas;
     }
+
+//Aqui leo la infoemcion sobre los empleados
     public Empleado Read(int emp_no) throws SQLException {
         ResultSet rs;
-        String sql = "SELECT empleados WHERE emp_no = ?";
+        String sql = "SELECT * FROM empleados WHERE emp_no = ?";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
         sentencia.setInt(1, emp_no);
         sentencia.execute();
         rs = sentencia.getResultSet();
         rs.next();
-        Empleado emp = new Empleado (rs.getInt("emp_no"), rs.getString("apellido"), rs.getString("oficio"), rs.getInt("dir"), rs.getDate("fecah_alt"), rs.getFloat("salario"), rs.getFloat("comision"), rs.getInt("dept_n"));
+        Empleado emp = new Empleado(rs.getInt("emp_no"), rs.getString("apellido"), rs.getString("oficio"), rs.getInt("dir"), rs.getDate("fecha_alt"), rs.getFloat("salario"), rs.getFloat("comision"), rs.getInt("dept_no"));
+        return emp;
+    }
+    
+//Aqui leo informacion del empleado según su apellido
+    public Empleado ReadApellido(String apellido) throws SQLException {
+        ResultSet rs;
+        String sql = "SELECT * FROM empleados WHERE apellido = '" + apellido + "'";
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.execute();
+        rs = sentencia.getResultSet();
+        rs.next();
+        Empleado emp = new Empleado(rs.getInt("emp_no"), rs.getString("apellido"), rs.getString("oficio"), rs.getInt("dir"), rs.getDate("fecha_alt"), rs.getFloat("salario"), rs.getFloat("comision"), rs.getInt("dept_no"));
         return emp;
     }
 
+//Aqui puedo borrar empleados
     public int Delete(int emp_no) throws SQLException {
         int filas;
-        String sql = "DELETE empleados WHERE emp_no = ?";
+        String sql = "DELETE FROM empleados WHERE emp_no = ?";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
         sentencia.setInt(1, emp_no);
         filas = sentencia.executeUpdate();
         return filas;
     }
+//Aqui puedo cerrar la conexion con los empelados
     public void Close() throws SQLException {
         conexion.close();
     }
-    public ArrayList <Empleado> ListarEmpleados() throws SQLException{
+//Aqui creo un arraylist para listar lo empleados
+    public ArrayList<Empleado> ListarEmpleados() throws SQLException {
         ResultSet rs;
         Empleado emp = new Empleado();
         ArrayList<Empleado> employers = new ArrayList<>();
@@ -102,7 +124,7 @@ public int Create(Empleado emp) throws SQLException {
             emp.setFecha_alt(rs.getDate(5));
             emp.setSalario(rs.getFloat(6));
             emp.setComision(rs.getFloat(7));
-            emp.setDept_n(rs.getInt(6));
+            emp.setDept_no(rs.getInt(6));
             employers.add(emp);
         }
         return employers;

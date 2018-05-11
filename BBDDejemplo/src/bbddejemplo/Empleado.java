@@ -10,6 +10,8 @@ import java.sql.Date;
  *
  * @author Usuario 1 DAM
  */
+
+//Aqui pongo los atributos del empleado
 public class Empleado {
     private int emp_no;
     private String apellido;
@@ -18,9 +20,9 @@ public class Empleado {
     private Date fecha_alt;
     private float salario;
     private float comision;
-    private int dept_n; 
-
-    public Empleado(int emp_no, String apellido, String oficio, int dir, Date fecha_alt, float salario, float comision, int dept_n) {
+    private int dept_no; 
+//Aqui genero los constructores
+    public Empleado(int emp_no, String apellido, String oficio, int dir, Date fecha_alt, float salario, float comision, int dept_no) {
         this.emp_no = emp_no;
         this.apellido = apellido;
         this.oficio = oficio;
@@ -28,9 +30,9 @@ public class Empleado {
         this.fecha_alt = fecha_alt;
         this.salario = salario;
         this.comision = comision;
-        this.dept_n = dept_n;
+        this.dept_no = dept_no;
     }
-
+//Y genero setters y getters
     public int getEmp_no() {
         return emp_no;
     }
@@ -87,12 +89,12 @@ public class Empleado {
         this.comision = comision;
     }
 
-    public int getDept_n() {
-        return dept_n;
+    public int getDept_no() {
+        return dept_no;
     }
 
-    public void setDept_n(int dept_n) {
-        this.dept_n = dept_n;
+    public void setDept_no(int dept_no) {
+        this.dept_no = dept_no;
     }
 
     public Empleado() {
